@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  
+  db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=1Secure*Password1
+
+
+  dockertutorial.webapi:
+    image: ${DOCKER_REGISTRY-}dockertutorialwebapi
+    build:
+      context: .
+      dockerfile: DockerTutorial.WebApi/Dockerfile
+    depends_on:
+      - db
+
+  dockertutorial.healthcheck:
+    image: ${DOCKER_REGISTRY-}dockertutorialhealthcheck
+    build:
+      context: .
+      dockerfile: DockerTutorial.HealthCheck/Dockerfile
